@@ -1,0 +1,8 @@
+{
+  "homepage": {
+    "welcome": "Приветики!"
+  },
+  "notFoundPage": {
+    "notFound": "Ой! А странички то нет..."
+  }
+}

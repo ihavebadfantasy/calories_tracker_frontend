@@ -1,0 +1,24 @@
+$breakpoints: (
+        'small-phone': 370px,
+        'phone':  450px,
+        'phablet': 600px,
+        'tablet':  768px,
+        'container-width': 1200px,
+) !default;
+
+$colors: (
+        'gray':  #D3D3D3,
+        'red': #f12525,
+        'basic-theme-dark': #333333,
+        'basic-theme-primary': #1e87f0,
+        'basic-theme-blue': #1e87f0,
+        'basic-theme-red': #f12525,
+        'basic-theme-disabled': rgba(102,102,102,.5),
+) !default;
+
+$dimensions: (
+        'header-height':  112px,
+        'footer-height-mobile': 200px,
+        'footer-height': 112px,
+) !default;
+

@@ -1,0 +1,8 @@
+{
+  "homepage": {
+    "welcome": "Hey there, dude!"
+  },
+  "notFoundPage": {
+    "notFound": "Oops! Page is not found..."
+  }
+}
