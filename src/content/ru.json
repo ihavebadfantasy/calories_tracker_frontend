@@ -4,5 +4,20 @@
   },
   "notFoundPage": {
     "notFound": "Ой! А странички то нет..."
+  },
+  "loginPage": {
+    "form": {
+      "inputs": {
+        "email": {
+          "placeholder": "mYeMaIlIsJuStAwEsOmE@mail.com",
+          "label": "Почта"
+        },
+        "password": {
+          "placeholder": "*****",
+          "label": "Пароль"
+        }
+      },
+      "submitBtn": "Войти"
+    }
   }
 }

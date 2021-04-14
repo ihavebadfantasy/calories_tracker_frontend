@@ -1,1 +1,1 @@
-export const SOME_URL = '/some/url';
+export const LOGIN_URL = '/auth/login';

@@ -4,9 +4,8 @@ const Home = () => {
   const [ t ] = useTranslation('homepage');
 
   return (
-    <div className="content-centered">
+    <div>
       <h1>{t('welcome')}</h1>
-
     </div>
   );
 }
