@@ -6,6 +6,7 @@ import {
   CREATE_PROFILE,
   SET_IS_AUTH,
   SET_TOKENS,
+  LOGOUT_USER
 } from './types';
 import { Api } from '../../api/Api';
 import {
@@ -13,6 +14,7 @@ import {
   GET_USER_PROFILE_URL,
   LOGIN_URL,
   CREATE_PROFILE_URL,
+  LOGOUT_URL,
 } from '../../api/urls';
 import setAccessTokens from '../../helpers/setAccessTokens';
 
@@ -27,6 +29,25 @@ export const setTokens = (tokens) => {
   return {
     type: SET_TOKENS,
     payload: tokens,
+  }
+}
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    const res = await Api.$instance.post(LOGOUT_URL);
+
+    if (!res.status) {
+      Api.$instance.removeHeader('Authorization');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      dispatch(setTokens({
+        accessToken: null,
+        refreshToken: null,
+      }));
+      dispatch(setIsAuth(false));
+    }
+
+    return res;
   }
 }
 

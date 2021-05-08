@@ -4,6 +4,7 @@ import routes from '../navigation/routes';
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.user.isAuth,
     profile: state.user.profile
   }
 }
@@ -19,6 +20,12 @@ const requireRegistrationCompletion = ChildComponent => {
     }
 
     shouldNavigateAway() {
+      if (!this.props.auth) {
+        this.props.history.push(routes.login);
+
+        return;
+      }
+
       if (!this.props.profile || !this.props.profile.isRegistrationComplete) {
         this.props.history.push(routes.createProfile);
       }

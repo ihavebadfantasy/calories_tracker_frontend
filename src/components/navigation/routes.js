@@ -3,5 +3,7 @@ export default {
   notFound: '/not-found',
   login: '/login',
   register: '/register',
-  createProfile: '/create-profile'
+  createProfile: '/create-profile',
+  allDays: '/all-days',
+  profile: '/profile',
 };
