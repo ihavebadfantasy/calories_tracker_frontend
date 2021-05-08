@@ -3,12 +3,14 @@ import {
   REGISTER_USER,
   GET_PROFILE,
   LOGIN_USER,
+  CREATE_PROFILE,
 } from './types';
 import { Api } from '../../api/Api';
 import {
   REGISTER_URL,
   GET_USER_PROFILE_URL,
   LOGIN_URL,
+  CREATE_PROFILE_URL,
 } from '../../api/urls';
 import setAccessTokens from '../../helpers/setAccessTokens';
 
@@ -41,6 +43,21 @@ export const loginUser = (credentials) => {
       dispatch({
         type: LOGIN_USER,
         payload: res.data,
+      });
+    }
+
+    return res;
+  }
+}
+
+export const createUserProfile = (credentials) => {
+  return async (dispatch) => {
+    const res = await Api.$instance.post(CREATE_PROFILE_URL, credentials);
+
+    if (!res.status) {
+      dispatch({
+        type: CREATE_PROFILE,
+        payload: res.data.user,
       });
     }
 

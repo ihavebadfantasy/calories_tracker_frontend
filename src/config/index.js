@@ -7,4 +7,7 @@ export default {
   language: {
     default: 'ru',
   },
+  app: {
+    numberMask: '999',
+  }
 };

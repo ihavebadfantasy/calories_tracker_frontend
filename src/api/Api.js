@@ -68,8 +68,6 @@ export class Api {
       });
     }
 
-    console.log(this.client);
-
     return this.client;
   }
 
