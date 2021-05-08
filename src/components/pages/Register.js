@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { registerUser } from '../../store/user/actions';
 import FormCard from '../forms/FormCard';
 import Form from '../forms/Form';
 import registerValidations from '../../helpers/validations/registerValidations';
+import routes from '../navigation/routes';
 
 class Register extends React.Component {
   state = {
@@ -24,10 +26,12 @@ class Register extends React.Component {
   }
 
   onSubmit = async (values, { setSubmitting }) => {
-    this.setState({...this.state, serverErrors: {}, genralError: ''});
+    this.setState({...this.state, serverErrors: {}, generalError: ''});
 
     const res = await this.props.registerUser(values);
     if (!res.status) {
+      this.props.history.push(routes.createProfile);
+
       return;
     }
 
@@ -153,6 +157,14 @@ class Register extends React.Component {
               )
             }}
           </Form>
+
+          <div className="content-centered mt-10">
+            <Link
+              to={routes.login}
+            >
+              Войти
+            </Link>
+          </div>
         </FormCard>
       </div>
     );

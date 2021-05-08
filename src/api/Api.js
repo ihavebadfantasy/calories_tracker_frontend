@@ -22,22 +22,24 @@ export class Api {
 
   setHeader(header, value) {
     this.headers[header] = value;
+    this.client = null;
 
     return Api.$instance;
   }
 
   removeHeader(header) {
     delete this.headers[header];
+    this.client = null;
 
     return Api.$instance;
   }
 
   async get(url, config) {
-    const fullConfig = this.createFullConfig(config);
+    // const fullConfig = this.createFullConfig(config);
     this.initClient();
 
     try {
-      const res = await this.client.get(url, fullConfig);
+      const res = await this.client.get(url, config);
 
       return res.data;
     } catch (e) {
@@ -65,6 +67,8 @@ export class Api {
         headers: this.headers,
       });
     }
+
+    console.log(this.client);
 
     return this.client;
   }

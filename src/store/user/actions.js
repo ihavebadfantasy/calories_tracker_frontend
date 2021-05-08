@@ -1,6 +1,15 @@
-import { SET_LANGUAGE, REGISTER_USER } from './types';
+import {
+  SET_LANGUAGE,
+  REGISTER_USER,
+  GET_PROFILE,
+  LOGIN_USER,
+} from './types';
 import { Api } from '../../api/Api';
-import { REGISTER_URL } from '../../api/urls';
+import {
+  REGISTER_URL,
+  GET_USER_PROFILE_URL,
+  LOGIN_URL,
+} from '../../api/urls';
 import setAccessTokens from '../../helpers/setAccessTokens';
 
 export const registerUser = (credentials) => {
@@ -9,9 +18,44 @@ export const registerUser = (credentials) => {
 
     if (!res.status) {
       setAccessTokens(res.data.accessToken, res.data.refreshToken);
+      await dispatch(fetchUserProfile());
+
       dispatch({
         type: REGISTER_USER,
         payload: res.data,
+      });
+    }
+
+    return res;
+  }
+}
+
+export const loginUser = (credentials) => {
+  return async (dispatch) => {
+    const res = await Api.$instance.post(LOGIN_URL, credentials);
+
+    if (!res.status) {
+      setAccessTokens(res.data.accessToken, res.data.refreshToken);
+      await dispatch(fetchUserProfile());
+
+      dispatch({
+        type: LOGIN_USER,
+        payload: res.data,
+      });
+    }
+
+    return res;
+  }
+}
+
+export const fetchUserProfile = () => {
+  return async (dispatch) => {
+    const res = await Api.$instance.get(GET_USER_PROFILE_URL);
+
+    if (!res.status) {
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data.user,
       });
     }
 
