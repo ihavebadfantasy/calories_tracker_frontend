@@ -1,27 +1,21 @@
-import axios from 'axios';
-import { SET_LOCATION, SET_LANGUAGE } from './types';
+import { SET_LANGUAGE, REGISTER_USER } from './types';
 import { Api } from '../../api/Api';
+import { REGISTER_URL } from '../../api/urls';
+import setAccessTokens from '../../helpers/setAccessTokens';
 
-export const setLocation = () => {
+export const registerUser = (credentials) => {
   return async (dispatch) => {
-    const location = {
-      country: 'USA',
-      countryCode: 'US',
-    };
+    const res = await Api.$instance.post(REGISTER_URL, credentials);
 
-    try {
-      const res = await axios.get('https://extreme-ip-lookup.com/json/');
-
-      location.country = res.data.country || location.country;
-      location.countryCode = res.data.countryCode || location.country_code;
-    } catch (err) {
-
+    if (!res.status) {
+      setAccessTokens(res.data.accessToken, res.data.refreshToken);
+      dispatch({
+        type: REGISTER_USER,
+        payload: res.data,
+      });
     }
 
-    dispatch({
-      type: SET_LOCATION,
-      payload: location,
-    });
+    return res;
   }
 }
 

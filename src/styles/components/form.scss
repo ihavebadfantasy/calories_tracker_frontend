@@ -1,0 +1,13 @@
+.ui.input {
+  flex-wrap: wrap;
+
+  label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .error-msg {
+    color: #9f3a38;
+  }
+}
+

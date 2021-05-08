@@ -14,9 +14,22 @@ export class Api {
 
   client = null;
   language = config.language.default;
+  headers = {};
 
   setLanguage(language) {
     this.language = language;
+  }
+
+  setHeader(header, value) {
+    this.headers[header] = value;
+
+    return Api.$instance;
+  }
+
+  removeHeader(header) {
+    delete this.headers[header];
+
+    return Api.$instance;
   }
 
   async get(url, config) {
@@ -48,7 +61,8 @@ export class Api {
   initClient() {
     if (!this.client) {
       this.client = axios.create({
-        baseURL: config.api.urls.baseUrl
+        baseURL: config.api.urls.baseUrl,
+        headers: this.headers,
       });
     }
 
@@ -56,7 +70,6 @@ export class Api {
   }
 
   createFullConfig(config) {
-
     const language = {
       'language': this.language,
     };

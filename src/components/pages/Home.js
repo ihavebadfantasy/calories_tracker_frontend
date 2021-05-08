@@ -1,14 +1,12 @@
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 
-const Home = () => {
-  const [ t ] = useTranslation('homepage');
-
-  return (
-    <div>
-      <h1>{t('welcome')}</h1>
-    </div>
-  );
+class Home extends React.Component {
+  render() {
+    return (
+      <div>Home</div>
+    );
+  }
 }
 
-
 export default Home;
+  

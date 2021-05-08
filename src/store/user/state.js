@@ -1,7 +1,9 @@
 export default {
-  location: {
-    country: null,
-    countryCode: null,
+  tokens: {
+    accessToken: null,
+    refreshToken: null,
   },
+  isAuth: false,
+  profile: null,
   language: null,
 }
