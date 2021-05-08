@@ -4,6 +4,8 @@ import {
   GET_PROFILE,
   LOGIN_USER,
   CREATE_PROFILE,
+  SET_IS_AUTH,
+  SET_TOKENS,
 } from './types';
 import { Api } from '../../api/Api';
 import {
@@ -13,6 +15,20 @@ import {
   CREATE_PROFILE_URL,
 } from '../../api/urls';
 import setAccessTokens from '../../helpers/setAccessTokens';
+
+export const setIsAuth = (authState) => {
+  return {
+    type: SET_IS_AUTH,
+    payload: authState,
+  }
+}
+
+export const setTokens = (tokens) => {
+  return {
+    type: SET_IS_AUTH,
+    payload: tokens,
+  }
+}
 
 export const registerUser = (credentials) => {
   return async (dispatch) => {

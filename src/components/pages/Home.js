@@ -1,4 +1,5 @@
 import React from 'react';
+import requireAuth from '../HOC/requireAuth';
 
 class Home extends React.Component {
   render() {
@@ -8,5 +9,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
-  
+export default requireAuth(Home);

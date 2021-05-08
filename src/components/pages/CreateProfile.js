@@ -7,6 +7,7 @@ import Form from '../forms/Form';
 import createProfileValidations from '../../helpers/validations/createProfileValidations';
 import routes from '../navigation/routes';
 import InputMask from 'react-input-mask';
+import requireAuth from '../HOC/requireAuth';
 
 class CreateProfile extends React.Component {
 
@@ -234,4 +235,4 @@ const mapDispatchToProps = {
   createUserProfile,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(requireAuth(CreateProfile));
