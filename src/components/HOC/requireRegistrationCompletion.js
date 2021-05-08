@@ -4,11 +4,11 @@ import routes from '../navigation/routes';
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.user.isAuth,
+    profile: state.user.profile
   }
 }
 
-const requireAuth = ChildComponent => {
+const requireRegistrationCompletion = ChildComponent => {
   class ComposedComponent extends React.Component {
     componentDidMount() {
       this.shouldNavigateAway();
@@ -19,8 +19,8 @@ const requireAuth = ChildComponent => {
     }
 
     shouldNavigateAway() {
-      if (!this.props.auth) {
-        this.props.history.push(routes.login);
+      if (!this.props.profile || !this.props.profile.isRegistrationComplete) {
+        this.props.history.push(routes.createProfile);
       }
     }
     render() {
@@ -31,4 +31,4 @@ const requireAuth = ChildComponent => {
   return connect(mapStateToProps, null)(ComposedComponent);;
 }
 
-export default requireAuth;
+export default requireRegistrationCompletion;

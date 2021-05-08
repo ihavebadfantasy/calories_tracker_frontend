@@ -1,5 +1,6 @@
 import React from 'react';
 import requireAuth from '../HOC/requireAuth';
+import requireRegistrationCompletion from '../HOC/requireRegistrationCompletion';
 
 class Home extends React.Component {
   render() {
@@ -9,4 +10,4 @@ class Home extends React.Component {
   }
 }
 
-export default requireAuth(Home);
+export default requireRegistrationCompletion(requireAuth(Home));
