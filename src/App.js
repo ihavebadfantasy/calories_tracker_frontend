@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter} from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 import Navigation from './components/navigation/Navigation';
 import ScrollToTop from './components/navigation/ScrollToTop';
 import { loadInitialAppData } from './store/app/actions';
+import Loader from './components/shared/Loader';
 
 const App = ({isAppInitialDataLoaded, loadInitialAppData}) => {
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
   useEffect(() => {
     loadInitialAppData();
-
-    setIsInitialLoad(false);
   }, []);
 
   return (
@@ -22,11 +19,11 @@ const App = ({isAppInitialDataLoaded, loadInitialAppData}) => {
         <LastLocationProvider>
           { isAppInitialDataLoaded ? (
             <Navigation />
-          ) : (
-            <div className="content-centered">
-              <p>Loading data...</p>
-            </div>
-          )
+            ) : (
+              <div className="full-page-content-centered">
+                <Loader size="massive" />
+              </div>
+            )
           }
         </LastLocationProvider>
       </BrowserRouter>

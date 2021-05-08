@@ -25,7 +25,7 @@ export const setIsAuth = (authState) => {
 
 export const setTokens = (tokens) => {
   return {
-    type: SET_IS_AUTH,
+    type: SET_TOKENS,
     payload: tokens,
   }
 }
