@@ -220,6 +220,10 @@ body.with-footer {
   padding-left: 0 !important;
 }
 
+.pl-10 {
+  padding-left: 10px !important;
+}
+
 .pr-0 {
   padding-right: 0 !important;
 }
@@ -237,10 +241,26 @@ body.with-footer {
   border-radius: 0 !important;
   border-left-width: 0px;
   border-right-width: 0px;
+
+  &.stackable {
+    margin-top: 0 !important;
+  }
 }
 
 .fixed-right {
   position: fixed;
   top: 20%;
   right: 5%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.ml-5 {
+  margin-left: 5px;
 }

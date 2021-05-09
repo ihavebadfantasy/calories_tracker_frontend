@@ -6,9 +6,9 @@ import {
 import { Api } from '../../api/Api';
 import { CREATE_MEAL_URL, UPDATE_MEAL_URL } from '../../api/urls';
 
-export const createMeal = () => {
+export const createMeal = (credentials) => {
   return async (dispatch) => {
-    const res = await Api.$instance.post(CREATE_MEAL, credentials);
+    const res = await Api.$instance.post(CREATE_MEAL_URL, credentials);
 
     if (!res.status) {
       dispatch({

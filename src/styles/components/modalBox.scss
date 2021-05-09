@@ -19,6 +19,14 @@
       padding: 1.5rem;
     }
   }
+
+  &-content {
+    border-bottom: 1px solid rgba(34,36,38,.15);
+
+    &-inner {
+      padding: 1.5rem;
+    }
+  }
 }
 
 .ReactModal__Overlay.ReactModal__Overlay--after-open {

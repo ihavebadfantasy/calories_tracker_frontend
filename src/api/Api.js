@@ -60,6 +60,19 @@ export class Api {
     }
   }
 
+  async put(url, credentials = {}, config) {
+    // const fullConfig = this.createFullConfig(config);
+    this.initClient();
+
+    try {
+      const res = await this.client.put(url, credentials, config);
+
+      return res.data;
+    } catch (e) {
+      return e.response;
+    }
+  }
+
   initClient() {
     if (!this.client) {
       this.client = axios.create({

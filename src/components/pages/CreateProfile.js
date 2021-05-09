@@ -8,7 +8,7 @@ import createProfileValidations from '../../helpers/validations/createProfileVal
 import routes from '../navigation/routes';
 import InputMask from 'react-input-mask';
 import requireAuth from '../HOC/requireAuth';
-
+// TODO: accept float numbers as weight
 class CreateProfile extends React.Component {
 
   state = {
