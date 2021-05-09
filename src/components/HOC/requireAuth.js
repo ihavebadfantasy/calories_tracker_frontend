@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 const requireAuth = ChildComponent => {
   class ComposedComponent extends React.Component {
     componentDidMount() {
+      console.log('in did mount');
       this.shouldNavigateAway();
     }
 

@@ -41,7 +41,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="ui secondary pointing menu">
+      <div className="ui stackable menu">
         { this.renderNavMenu() }
 
         <div className="right menu">

@@ -1,0 +1,30 @@
+.modal-box {
+  width: 600px;
+  &-close-btn {
+    margin-right: 1rem !important;
+    margin-top: 1rem !important;
+    display: block;
+  }
+
+  &-header {
+    color: rgba(0,0,0,.85);
+    border-bottom: 1px solid rgba(34,36,38,.15);
+    font-size: 1.42857143rem;
+    line-height: 1.28571429em;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+
+    &-content {
+      padding: 1.5rem;
+    }
+  }
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+.ReactModal__Content.ReactModal__Content--after-open {
+  border: none !important;
+  padding: 0px !important;
+}
