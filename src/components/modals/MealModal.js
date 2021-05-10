@@ -8,13 +8,23 @@ import createMealValidations from '../../helpers/validations/createMealValidatio
 class MealModal extends React.Component {
   state = {
     initialValues: {
-      nutriment: '',
-      calories: '',
-      weight: '',
+      nutriment: (this.props.meal && this.props.meal.nutriment) ? this.props.meal.nutriment : '',
+      calories: (this.props.meal && this.props.meal.calories) ? this.props.meal.calories : '',
+      weight: (this.props.meal && this.props.meal.weight) ? this.props.meal.weight : '',
     },
     serverErrors: {},
     generalError: '',
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.meal !== prevProps.meal) {
+      this.setState({...this.state, initialValues: {
+          nutriment: (this.props.meal && this.props.meal.nutriment) ? this.props.meal.nutriment : '',
+          calories: (this.props.meal && this.props.meal.calories) ? this.props.meal.calories : '',
+          weight: (this.props.meal && this.props.meal.weight) ? this.props.meal.weight : '',
+        }});
+    }
+  }
 
   handleFocus = (e) => {
     let newState = JSON.stringify(this.state);
@@ -26,7 +36,12 @@ class MealModal extends React.Component {
   onSubmit = async (values, { setSubmitting }) => {
     this.setState({...this.state, serverErrors: {}, generalError: ''});
 
-    const res = await this.props.createMeal(values);
+    // let res;
+    // if (this.props.meal) {
+    //
+    // }
+
+    const res = this.props.meal ? await this.props.updateMeal(values, this.props.meal._id) : await this.props.createMeal(values);
     if (!res.status) {
       this.props.closeModal();
       return;

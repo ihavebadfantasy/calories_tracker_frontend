@@ -23,6 +23,7 @@ const requireAuth = ChildComponent => {
         this.props.history.push(routes.login);
       }
     }
+
     render() {
       return <ChildComponent {...this.props} />
     }

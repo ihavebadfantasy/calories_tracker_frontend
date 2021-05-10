@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchDays } from '../../store/days/actions';
-import { createMeal } from '../../store/meals/actions';
+import { createMeal, updateMeal } from '../../store/meals/actions';
 import requireRegistrationCompletion from '../HOC/requireRegistrationCompletion';
 import requireAuth from '../HOC/requireAuth';
 import Loader from '../shared/Loader';
@@ -17,6 +17,7 @@ import MealsTable from '../shared/MealsTable';
 class Home extends React.Component {
   state = {
     mealModalIsOpen: false,
+    currentMeal: null,
   };
 
   componentDidMount() {
@@ -27,12 +28,34 @@ class Home extends React.Component {
     this.setState({...this.state, mealModalIsOpen: false});
   }
 
-  openMealModal = () => {
+  openCreateMealModal = () => {
     this.setState({...this.state, mealModalIsOpen: true});
+  }
+
+  openEditMealModal = (mealId) => {
+    const currentMeal = this.props.today.meals.find((meal) => {
+      return meal._id === mealId;
+    });
+
+    if (!currentMeal) {
+      return;
+    }
+
+    this.setState({...this.state, currentMeal}, () => {
+      this.setState({...this.state, mealModalIsOpen: true});
+    });
   }
 
   createMeal = async (values) => {
     const res = await this.props.createMeal(values);
+
+    await this.props.fetchDays();
+
+    return res;
+  }
+
+  updateMeal = async (values, id) => {
+    const res = await this.props.updateMeal(values, id);
 
     await this.props.fetchDays();
 
@@ -46,6 +69,8 @@ class Home extends React.Component {
           modalIsOpen={this.state.mealModalIsOpen}
           closeModal={this.closeMealModal}
           createMeal={this.createMeal}
+          updateMeal={this.updateMeal}
+          meal={this.state.currentMeal}
         />
 
         <Header activeLink={routes.home} />
@@ -59,11 +84,12 @@ class Home extends React.Component {
             <TodayStats />
 
             <MealsTable
+              onEditClick={this.openEditMealModal}
               meals={this.props.today && this.props.today.meals ? this.props.today.meals : []}
             />
 
             <AddDropdownButton
-              onAddMealClick={this.openMealModal}
+              onAddMealClick={this.openCreateMealModal}
             />
           </>
           )
@@ -83,6 +109,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchDays,
   createMeal,
+  updateMeal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(requireRegistrationCompletion(requireAuth(Home)));

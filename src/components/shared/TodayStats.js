@@ -29,7 +29,7 @@ class TodayStats extends React.Component {
 
   render() {
     const weight = (this.props.today && this.props.today.weight) ? this.props.today.weight : '?';
-    const caloriesLeft = (this.props.today && this.props.today.caloriesLeft) ? this.props.today.caloriesLeft : this.props.profile.caloriesPerDay;
+    const caloriesLeft = (this.props.today && this.props.today.caloriesLeft) ? this.props.today.caloriesLeft : (this.props.profile && this.props.profile.caloriesPerDay ) ? this.props.profile.caloriesPerDay : '-';
     const activity = (this.props.today && this.props.today.dailyActivity) ? this.props.today.dailyActivity : '0';
 
     return (

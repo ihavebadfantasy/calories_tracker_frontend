@@ -13,6 +13,15 @@ class MealsTable extends React.Component {
           </td>
           <td>
             { meal.calories }
+            <div className="table-controls">
+              <i
+                className="edit icon cursor-pointer"
+                onClick={() => {
+                  this.props.onEditClick(meal._id);
+                }}
+              />
+              <i className="close icon cursor-pointer" />
+            </div>
           </td>
         </tr>
       );

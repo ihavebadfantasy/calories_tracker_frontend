@@ -5,6 +5,7 @@ import {
 } from './types';
 import { Api } from '../../api/Api';
 import { CREATE_MEAL_URL, UPDATE_MEAL_URL } from '../../api/urls';
+import makeUrl from '../../helpers/makeUrl';
 
 export const createMeal = (credentials) => {
   return async (dispatch) => {
@@ -13,6 +14,21 @@ export const createMeal = (credentials) => {
     if (!res.status) {
       dispatch({
         type: CREATE_MEAL,
+        payload: res.data.meal,
+      });
+    }
+
+    return res;
+  }
+}
+
+export const updateMeal = (credentials, id) => {
+  return async (dispatch) => {
+    const res = await Api.$instance.put(makeUrl(UPDATE_MEAL_URL, { id }), credentials);
+
+    if (!res.status) {
+      dispatch({
+        type: UPDATE_CURRENT_MEAL,
         payload: res.data.meal,
       });
     }
