@@ -73,6 +73,19 @@ export class Api {
     }
   }
 
+  async delete(url, config) {
+    // const fullConfig = this.createFullConfig(config);
+    this.initClient();
+
+    try {
+      const res = await this.client.delete(url, config);
+
+      return res.data;
+    } catch (e) {
+      return e.response;
+    }
+  }
+
   initClient() {
     if (!this.client) {
       this.client = axios.create({

@@ -2,9 +2,14 @@ import {
   SET_CURRENT_MEAL,
   UPDATE_CURRENT_MEAL,
   CREATE_MEAL,
+  DELETE_MEAL,
 } from './types';
 import { Api } from '../../api/Api';
-import { CREATE_MEAL_URL, UPDATE_MEAL_URL } from '../../api/urls';
+import {
+  CREATE_MEAL_URL,
+  UPDATE_MEAL_URL,
+  DELETE_MEAL_URL,
+} from '../../api/urls';
 import makeUrl from '../../helpers/makeUrl';
 
 export const createMeal = (credentials) => {
@@ -30,6 +35,20 @@ export const updateMeal = (credentials, id) => {
       dispatch({
         type: UPDATE_CURRENT_MEAL,
         payload: res.data.meal,
+      });
+    }
+
+    return res;
+  }
+}
+
+export const deleteMeal = (id) => {
+  return async (dispatch) => {
+    const res = await Api.$instance.delete(makeUrl(DELETE_MEAL_URL, { id }));
+
+    if (!res.status) {
+      dispatch({
+        type: DELETE_MEAL,
       });
     }
 

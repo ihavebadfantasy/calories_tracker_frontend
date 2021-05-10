@@ -20,7 +20,12 @@ class MealsTable extends React.Component {
                   this.props.onEditClick(meal._id);
                 }}
               />
-              <i className="close icon cursor-pointer" />
+              <i
+                className="close icon cursor-pointer"
+                onClick={() => {
+                  this.props.onDeleteClick(meal._id);
+                }}
+              />
             </div>
           </td>
         </tr>

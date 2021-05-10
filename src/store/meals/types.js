@@ -1,3 +1,4 @@
 export const SET_CURRENT_MEAL = 'FETCH_CURRENT_MEAL';
 export const UPDATE_CURRENT_MEAL = 'UPDATE_CURRENT_MEAL';
 export const CREATE_MEAL = 'CREATE_MEAL';
+export const DELETE_MEAL = 'DELETE_MEAL';

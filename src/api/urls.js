@@ -7,3 +7,4 @@ export const GET_DAYS_URL = '/days';
 export const UPDATE_DAY_URL = '/days/:id';
 export const CREATE_MEAL_URL = '/meals';
 export const UPDATE_MEAL_URL = '/meals/:id';
+export const DELETE_MEAL_URL = '/meals/:id';

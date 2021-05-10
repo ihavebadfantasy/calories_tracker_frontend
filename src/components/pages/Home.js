@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchDays } from '../../store/days/actions';
-import { createMeal, updateMeal } from '../../store/meals/actions';
+import { createMeal, updateMeal, deleteMeal } from '../../store/meals/actions';
 import requireRegistrationCompletion from '../HOC/requireRegistrationCompletion';
 import requireAuth from '../HOC/requireAuth';
 import Loader from '../shared/Loader';
@@ -62,6 +62,14 @@ class Home extends React.Component {
     return res;
   }
 
+  deleteMeal = async (id) => {
+    const res = await this.props.deleteMeal(id);
+
+    await this.props.fetchDays();
+
+    return res;
+  }
+
   render() {
     return (
       <>
@@ -85,6 +93,7 @@ class Home extends React.Component {
 
             <MealsTable
               onEditClick={this.openEditMealModal}
+              onDeleteClick={this.deleteMeal}
               meals={this.props.today && this.props.today.meals ? this.props.today.meals : []}
             />
 
@@ -110,6 +119,7 @@ const mapDispatchToProps = {
   fetchDays,
   createMeal,
   updateMeal,
+  deleteMeal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(requireRegistrationCompletion(requireAuth(Home)));
