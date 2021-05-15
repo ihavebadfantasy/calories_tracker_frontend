@@ -2,7 +2,7 @@ const createMealValidations = values => {
   const errors = {};
 
   if (!values.calories) {
-    errors.email = 'Обязательное поле';
+    errors.calories = 'Обязательное поле';
   }
 
   return errors;

@@ -8,3 +8,7 @@ export const UPDATE_DAY_URL = '/days/:id';
 export const CREATE_MEAL_URL = '/meals';
 export const UPDATE_MEAL_URL = '/meals/:id';
 export const DELETE_MEAL_URL = '/meals/:id';
+export const GET_CALCULATED_ACTIVITIES_URL = '/activities';
+export const CREATE_ACTIVITY_URL = '/daily-activities';
+export const UPDATE_ACTIVITY_URL = '/daily-activities/:id';
+export const DELETE_ACTIVITY_URL = '/daily-activities/:id';

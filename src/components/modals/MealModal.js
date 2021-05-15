@@ -110,7 +110,7 @@ class MealModal extends React.Component {
                         onBlur={handleBlur}
                         value={values.nutriment}
                         placeholder="Котлетка"
-                        className="d-block"
+                        className="d-block w-100"
                         id="nutriment"
                       />
                       {touched.nutriment && errors.nutriment && (
@@ -142,7 +142,7 @@ class MealModal extends React.Component {
                               onBlur={handleBlur}
                               value={values.weight}
                               placeholder="200"
-                              className="d-block"
+                              className="d-block w-100"
                               id="weight"
                             />
                           );
@@ -158,7 +158,7 @@ class MealModal extends React.Component {
                     <div className={ (touched.calories && errors.calories) ? 'ui input w-100 error mt-20' : 'ui input w-100 mt-20'}>
                       <label
                         className="w-100"
-                        htmlFor="caloriesPerDay"
+                        htmlFor="calories"
                       >
                         Калории
                       </label>
@@ -177,7 +177,7 @@ class MealModal extends React.Component {
                               onBlur={handleBlur}
                               value={values.calories}
                               placeholder="345"
-                              className="d-block"
+                              className="d-block w-100"
                               id="calories"
                             />
                           );

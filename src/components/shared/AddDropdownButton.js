@@ -23,7 +23,10 @@ class AddDropdownButton extends React.Component {
               <i className="utensils icon"></i>
               Прием пищи
             </div>
-            <div className="item"><i className="hand rock icon"></i>Физическую активность</div>
+            <div className="item" onClick={this.props.onAddActivityClick}>
+              <i className="hand rock icon">
+
+            </i>Физическую активность</div>
           </div>
         </div>
       </div>
