@@ -1,5 +1,7 @@
 import axios from 'axios';
 import config from '../config';
+import { LOGIN_URL, REGISTER_URL, REFRESH_URL } from './urls';
+import setAccessTokens from '../helpers/setAccessTokens';
 
 export class Api {
   static instance = null;
@@ -15,6 +17,9 @@ export class Api {
   client = null;
   language = config.language.default;
   headers = {};
+  excludeRefreshUrls = [
+    LOGIN_URL, REGISTER_URL,
+  ]
 
   setLanguage(language) {
     this.language = language;
@@ -43,7 +48,9 @@ export class Api {
 
       return res.data;
     } catch (e) {
-      return e.response;
+      if (e.response) {
+        return this.errorHandler(e.response, 'get', url, config);
+      }
     }
   }
 
@@ -53,10 +60,11 @@ export class Api {
 
     try {
       const res = await this.client.post(url, credentials, config);
-
       return res.data;
     } catch (e) {
-      return e.response;
+      if (e.response) {
+        return this.errorHandler(e.response, 'post', url, config);
+      }
     }
   }
 
@@ -69,7 +77,9 @@ export class Api {
 
       return res.data;
     } catch (e) {
-      return e.response;
+      if (e.response) {
+        return this.errorHandler(e.response, 'put', url, config);
+      }
     }
   }
 
@@ -82,6 +92,42 @@ export class Api {
 
       return res.data;
     } catch (e) {
+      if (e.response) {
+        return this.errorHandler(e.response, 'delete', url, config);
+      }
+    }
+  }
+
+  async errorHandler(e, method, url, config) {
+    switch (e.status) {
+      case 401:
+        return await this.handle401Error(e, method, url, config);
+      default:
+        return e;
+    }
+  }
+
+  async handle401Error(e, method, url, config) {
+    if (this.excludeRefreshUrls.includes(url)) {
+      return e;
+    }
+
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken) {
+      return e;
+    }
+
+    this.excludeRefreshUrls.push(url);
+
+    try {
+      const refreshRes = await this.post(REFRESH_URL, { refreshToken });
+      setAccessTokens(refreshRes.data.accessToken, refreshRes.data.refreshToken);
+      const res = await this[method](url, config);
+      this.excludeRefreshUrls.pop();
+
+      return res;
+    } catch (e) {
+      this.excludeRefreshUrls.pop();
       return e.response;
     }
   }

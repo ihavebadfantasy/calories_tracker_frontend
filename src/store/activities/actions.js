@@ -14,6 +14,21 @@ import {
 } from '../../api/urls';
 import makeUrl from '../../helpers/makeUrl';
 
+export const fetchCalculatedActivities = () => {
+  return async (dispatch) => {
+    const res = await Api.$instance.get(GET_CALCULATED_ACTIVITIES_URL);
+
+    if (!res.status) {
+      dispatch({
+        type: FETCH_CALCULATED_ACTIVITIES,
+        payload: res.data.activities,
+      });
+    }
+
+    return res;
+  }
+}
+
 export const createActivity = (credentials) => {
   return async (dispatch) => {
     const res = await Api.$instance.post(CREATE_ACTIVITY_URL, credentials);

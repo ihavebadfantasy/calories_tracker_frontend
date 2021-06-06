@@ -28,6 +28,7 @@ class Login extends React.Component {
     this.setState({...this.state, serverErrors: {}, generalError: ''});
 
     const res = await this.props.loginUser(values);
+
     if (!res.status) {
       this.props.history.push(routes.home);
 

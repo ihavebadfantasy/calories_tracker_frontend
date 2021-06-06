@@ -72,7 +72,6 @@ export const registerUser = (credentials) => {
 export const loginUser = (credentials) => {
   return async (dispatch) => {
     const res = await Api.$instance.post(LOGIN_URL, credentials);
-
     if (!res.status) {
       setAccessTokens(res.data.accessToken, res.data.refreshToken);
       await dispatch(fetchUserProfile());
@@ -105,7 +104,7 @@ export const createUserProfile = (credentials) => {
 export const fetchUserProfile = () => {
   return async (dispatch) => {
     const res = await Api.$instance.get(GET_USER_PROFILE_URL);
-
+    console.log('user res', res);
     if (!res.status) {
       dispatch({
         type: GET_PROFILE,
