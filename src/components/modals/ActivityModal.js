@@ -1,9 +1,13 @@
 import React from 'react';
-import { Field } from "formik";
+import { Field } from 'formik';
+import { connect } from 'react-redux';
 import InputMask from 'react-input-mask';
 import ModalBox from './ModalBox';
 import Form from '../forms/Form';
+import NumberFormat from 'react-number-format';
 import createActivityValidations from '../../helpers/validations/createActivityValidations';
+import { fetchCalculatedActivities } from '../../store/activities/actions';
+import { Dropdown } from 'semantic-ui-react';
 
 class ActivityModal extends React.Component {
   state = {
@@ -14,7 +18,26 @@ class ActivityModal extends React.Component {
     },
     serverErrors: {},
     generalError: '',
+    activitiesOptions: this.createActivitiesOptions(),
+    selectedOption: null,
   };
+
+  createActivitiesOptions() {
+    return this.props.calculatedActivities.map((activity) => {
+      return {
+        key: activity._id,
+        value: activity._id,
+        text: activity.name,
+      }
+    });
+  }
+
+  async componentDidMount() {
+    if (!this.props.calculatedActivities.length) {
+      await this.props.fetchCalculatedActivities();
+      this.setState({...this.state, activitiesOptions: this.createActivitiesOptions()});
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.activity !== prevProps.activity) {
@@ -55,6 +78,37 @@ class ActivityModal extends React.Component {
     setSubmitting(false);
   }
 
+  handleActivityNameChange = (e, handleChange, setFieldValue) => {
+    const name = e.target.value;
+    setFieldValue('name', name);
+
+    this.setState({...this.state, selectedOption: null});
+  }
+
+  handleActivityNameDropdownSelect = (e, selectedOption, handleChange, setFieldValue) => {
+    const id = selectedOption.value;
+
+    let selectedActivity = this.props.calculatedActivities.find((activity) => {
+      return activity._id === id;
+    });
+
+    setFieldValue('name', selectedActivity.name);
+    setFieldValue('calories', selectedActivity.caloriesPerMin);
+    setFieldValue('duration', 1);
+    this.setState({...this.state, selectedOption: selectedActivity});
+  }
+
+  handleDurationChange = (e, handleChange, setFieldValue) => {
+    const duration = e.target.value;
+    setFieldValue('duration', duration);
+
+    if (this.state.selectedOption) {
+      const weight = this.props.profile.stats.averageWeight || this.props.profile.weight;
+      const calories = Math.floor(this.state.selectedOption.caloriesPerMin * weight * duration);
+      setFieldValue('calories', calories);
+    }
+  }
+
   render() {
     return (
       <ModalBox
@@ -86,8 +140,10 @@ class ActivityModal extends React.Component {
                   handleBlur,
                   handleSubmit,
                   isSubmitting,
+                  setFieldValue,
                 }) => {
                 errors = {...errors, ...this.state.serverErrors}
+
                 return (
                   <form onSubmit={handleSubmit} noValidate={true}>
                     <div className={ (touched.name && errors.name) ? 'ui input w-100 error' : 'ui input w-100'}>
@@ -101,12 +157,27 @@ class ActivityModal extends React.Component {
                         type="text"
                         name="name"
                         onFocus={this.handleFocus}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          this.handleActivityNameChange(e, handleChange, setFieldValue);
+                        }}
                         onBlur={handleBlur}
                         value={values.name}
-                        placeholder="Копал картошку"
                         className="d-block w-100"
                         id="name"
+                        placeholder="Копал картошку"
+                      />
+                      <Dropdown
+                        fluid
+                        search
+                        selection
+                        options={this.state.activitiesOptions}
+                        placeholder={values.name}
+                        noResultsMessage='Не удалось найти активности ;('
+                        onChange={(e, selectedOption) => {
+                          this.handleActivityNameDropdownSelect(e, selectedOption, handleChange, setFieldValue);
+                        }}
+                        value={values.name}
+                        className="mt-5"
                       />
                       {touched.name && errors.name && (
                         <div className="mt-5 error-msg d-block">
@@ -133,7 +204,9 @@ class ActivityModal extends React.Component {
                               mask="999"
                               type="phone"
                               onFocus={this.handleFocus}
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                this.handleDurationChange(e, handleChange, setFieldValue);
+                              }}
                               onBlur={handleBlur}
                               value={values.duration}
                               placeholder="40"
@@ -162,19 +235,17 @@ class ActivityModal extends React.Component {
                       >
                         {({ field }) => {
                           return (
-                            <InputMask
-                              {...field}
-                              maskChar={null}
-                              mask="99999"
-                              type="phone"
-                              onFocus={this.handleFocus}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.calories}
-                              placeholder="345"
-                              className="d-block w-100"
-                              id="calories"
-                            />
+                          <NumberFormat
+                            {...field}
+                            className="d-block w-100"
+                            type="tel"
+                            onFocus={this.handleFocus}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.calories}
+                            placeholder="345"
+                            placeholder="55"
+                          />
                           );
                         }}
                       </Field>
@@ -208,4 +279,15 @@ class ActivityModal extends React.Component {
   }
 }
 
-export default ActivityModal;
+const mapStateToProps = (state) => {
+  return {
+    calculatedActivities: state.activities.calculatedActivities,
+    profile: state.user.profile,
+  };
+}
+
+const mapDispatchToProps = {
+  fetchCalculatedActivities,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityModal);
