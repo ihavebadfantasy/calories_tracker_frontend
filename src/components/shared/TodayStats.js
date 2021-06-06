@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import InputMask from 'react-input-mask';
 import { updateToday, createToday } from '../../store/days/actions';
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
+import NumberFormat from 'react-number-format';
 
 // TODO: close editWeight input on click outside
 class TodayStats extends React.Component {
@@ -38,7 +38,6 @@ class TodayStats extends React.Component {
       }
     }
     const res = await this.props.updateToday({weight: this.state.editableWeight}, this.props.today._id);
-    console.log(res);
     if (!res.status) {
       this.setState({...this.state, weightEditEnabled: false});
     }
@@ -57,14 +56,13 @@ class TodayStats extends React.Component {
           Вес сегодня:
           { this.state.weightEditEnabled ? (
             <form onSubmit={this.onEditWeightSubmit}>
-              <InputMask
-                maskChar={null}
+              <NumberFormat
                 className="d-inline-block ml-5"
-                mask="999"
-                type="phone"
+                type="tel"
                 onChange={this.onWeightInputChange}
                 value={this.state.editableWeight}
                 placeholder="55"
+                decimalScale={1}
               />
             </form>
           ) : (

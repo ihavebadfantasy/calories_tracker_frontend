@@ -7,6 +7,7 @@ import Form from '../forms/Form';
 import createProfileValidations from '../../helpers/validations/createProfileValidations';
 import routes from '../navigation/routes';
 import InputMask from 'react-input-mask';
+import NumberFormat from 'react-number-format';
 import requireAuth from '../HOC/requireAuth';
 // TODO: accept float numbers as weight
 class CreateProfile extends React.Component {
@@ -110,11 +111,9 @@ class CreateProfile extends React.Component {
                     >
                       {({ field }) => {
                         return (
-                          <InputMask
+                          <NumberFormat
                             {...field}
-                            maskChar={null}
-                            mask="999"
-                            type="phone"
+                            type="tel"
                             onFocus={this.handleFocus}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -122,6 +121,7 @@ class CreateProfile extends React.Component {
                             placeholder="55"
                             className="d-block"
                             id="weight"
+                            decimalScale={1}
                           />
                         );
                       }}
