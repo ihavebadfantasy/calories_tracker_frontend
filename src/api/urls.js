@@ -5,6 +5,7 @@ export const REFRESH_URL = '/auth/refresh';
 export const CREATE_PROFILE_URL = '/users';
 export const GET_USER_PROFILE_URL = '/users';
 export const GET_DAYS_URL = '/days';
+export const CREATE_TODAY_URL = '/days/today';
 export const UPDATE_DAY_URL = '/days/:id';
 export const CREATE_MEAL_URL = '/meals';
 export const UPDATE_MEAL_URL = '/meals/:id';

@@ -104,7 +104,6 @@ export const createUserProfile = (credentials) => {
 export const fetchUserProfile = () => {
   return async (dispatch) => {
     const res = await Api.$instance.get(GET_USER_PROFILE_URL);
-    console.log('user res', res);
     if (!res.status) {
       dispatch({
         type: GET_PROFILE,

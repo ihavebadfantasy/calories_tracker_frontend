@@ -1,6 +1,6 @@
 import { FETCH_DAYS, SET_TODAY, UPDATE_TODAY } from './types';
 import { Api } from '../../api/Api';
-import { GET_DAYS_URL, UPDATE_DAY_URL } from '../../api/urls';
+import { GET_DAYS_URL, UPDATE_DAY_URL, CREATE_TODAY_URL } from '../../api/urls';
 import { DateTime } from 'luxon';
 import makeUrl from '../../helpers/makeUrl';
 
@@ -9,11 +9,22 @@ export const fetchDays = () => {
     const res = await Api.$instance.get(GET_DAYS_URL);
 
     if (!res.status) {
-      dispatch(setToday(res.data.days));
+      dispatch(findAndSetToday(res.data.days));
       dispatch({
         type: FETCH_DAYS,
         payload: res.data.days,
       });
+    }
+
+    return res;
+  }
+}
+
+export const createToday = () => {
+  return async (dispatch) => {
+    const res = await Api.$instance.post(CREATE_TODAY_URL);
+    if (!res.status) {
+      await dispatch(fetchDays());
     }
 
     return res;
@@ -35,7 +46,7 @@ export const updateToday = (credentials, id) => {
   }
 }
 
-export const setToday = (days) => {
+export const findAndSetToday = (days) => {
   let now = DateTime.now().toString();
   now = now.slice(0, now.indexOf('T'));
 

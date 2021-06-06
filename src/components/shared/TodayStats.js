@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import InputMask from 'react-input-mask';
-import { updateToday } from '../../store/days/actions';
+import { updateToday, createToday } from '../../store/days/actions';
+import { SemanticToastContainer, toast } from 'react-semantic-toasts';
+
 // TODO: close editWeight input on click outside
 class TodayStats extends React.Component {
 
@@ -20,8 +22,23 @@ class TodayStats extends React.Component {
 
   onEditWeightSubmit = async (e) => {
     e.preventDefault();
-    const res = await this.props.updateToday({weight: this.state.editableWeight}, this.props.today._id);
+    if (!this.props.today) {
+      const createTodayRes = await this.props.createToday();
+      if (createTodayRes.status) {
+        toast(
+          {
+            type: 'error',
+            title: 'Печалька...',
+            description: createTodayRes.data.error.message,
+            time: 5000,
+          }
+        );
 
+        return;
+      }
+    }
+    const res = await this.props.updateToday({weight: this.state.editableWeight}, this.props.today._id);
+    console.log(res);
     if (!res.status) {
       this.setState({...this.state, weightEditEnabled: false});
     }
@@ -34,6 +51,8 @@ class TodayStats extends React.Component {
 
     return (
       <div className="ui secondary pointing menu">
+        <SemanticToastContainer position="top-right" />
+
         <span className="item" onClick={this.enableWeightEdit}>
           Вес сегодня:
           { this.state.weightEditEnabled ? (
@@ -75,6 +94,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   updateToday,
+  createToday,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodayStats);
